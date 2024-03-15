@@ -65,7 +65,7 @@ return redirect()->route('employees.index')->with(['success' => 'Data Has Been S
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id) : View
     {
         //get employee by ID
         $employee = Employee::findOrFail($id);
@@ -90,7 +90,7 @@ return redirect()->route('employees.index')->with(['success' => 'Data Has Been S
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id) : RedirectResponse
     {
          //validate form
         $this->validate($request, [
@@ -119,8 +119,15 @@ return redirect()->route('employees.index')->with(['success' => 'Data Has Been S
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id) : RedirectResponse
     {
-       
+        //get employee by ID
+        $employee = Employee::findOrFail($id);
+
+        //delete data employee
+        $employee->delete();
+
+        //redirect to index
+        return redirect()->route('employees.index')->with(['success' => 'Data Delete!']);
     }
 }
