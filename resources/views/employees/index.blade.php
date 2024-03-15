@@ -33,9 +33,7 @@
                             <tbody>
                               @forelse ($employees as $employee)
                                 <tr>
-                                    <td class="text-center">
-                                        <img src="{{ asset('/storage/employees/'.$employee->image) }}" class="rounded" style="width: 150px">
-                                    </td>
+
                                     <td>{{ $employee->name }}</td>
                                     <td>{{ $employee->username }}</td>
                                     <td>{{ $employee->email }}</td>
