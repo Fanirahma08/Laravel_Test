@@ -58,8 +58,8 @@ class EmployeeController extends Controller
             'addres'   => $request->addres
         ]);
 
-        //redirect to index
-        return redirect()->route('employees.index')->with(['success' => 'Data Saved!']);
+//redirect to index
+return redirect()->route('employees.index')->with(['success' => 'Data Has Been Saved!']);
     }
 
     /**
@@ -67,15 +67,24 @@ class EmployeeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //get employee by ID
+        $employee = Employee::findOrFail($id);
+
+        //render view with employee
+        return view('employees.show', compact('employee'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): View
     {
-        //
+         //get employee by ID
+        $employee = Employee::findOrFail($id);
+
+        //render view with employee
+        return view('employees.edit', compact('employee'));
     }
 
     /**
@@ -83,7 +92,28 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         //validate form
+        $this->validate($request, [
+            'name'     => 'required|min:5',
+            'username' => 'required|min:5',
+            'email'    => 'required|min:5',
+            'addres'   => 'required|min:5'
+        ]);
+
+        //get employee by ID
+        $employee = Employee::findOrFail($id);
+
+
+        //update employee data
+            $employee->update([
+                'name'     => $request->name,
+                'username'   => $request->username,
+                'email'     => $request->email,
+                'addres'   => $request->addres,
+            ]);
+
+        //redirect to index
+        return redirect()->route('employees.index')->with(['success' => 'Data has been changed!']);
     }
 
     /**
@@ -91,6 +121,6 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       
     }
 }
